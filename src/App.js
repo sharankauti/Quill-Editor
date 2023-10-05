@@ -9,8 +9,9 @@ import "react-quill-emoji/dist/quill-emoji.css";
 
 import QuillCursors from 'quill-cursors';
 import 'quill-paste-smart'
-
-
+import htmlEditButton from "quill-html-edit-button";
+import { ImageDrop } from 'quill-image-drop-module';
+import Focus from 'quill-focus/src/focus';
 
 
 function App() {
@@ -25,6 +26,11 @@ function App() {
     true
   );
   Quill.register('modules/cursors', QuillCursors);
+  Quill.register({
+    "modules/htmlEditButton": htmlEditButton
+  })
+  Quill.register('modules/imageDrop', ImageDrop);
+  Quill.register('modules/focus', Focus)
 const modules = {
       toolbar: {
         container :[
@@ -56,17 +62,36 @@ const modules = {
         //     },
         // },
     },
+    htmlEditButton: {
+      debug: true, // logging, default:false
+      msg: "Edit the content in HTML format", //Custom message to display in the editor, default: Edit HTML here, when you click "OK" the quill editor's contents will be replaced
+      okText: "Ok", // Text to display in the OK button, default: Ok,
+      cancelText: "Cancel", // Text to display in the cancel button, default: Cancel
+      buttonHTML: "&lt;&gt;", // Text to display in the toolbar button, default: <>
+      buttonTitle: "Show HTML source", // Text to display as the tooltip for the toolbar button, default: Show HTML source
+      syntax: false, // Show the HTML with syntax highlighting. Requires highlightjs on window.hljs (similar to Quill itself), default: false
+      prependSelector: 'div#myelement', // a string used to select where you want to insert the overlayContainer, default: null (appends to body),
+      editorModules: {} //
+    },
+    imageDrop: true,
+    focus: {
+      focusClass: 'focused-blot' // Defaults to .focused-blot.
+    }
     }
   
 
-
+ 
+    
 
 
 
   return (
+
+
     <div className="TextEditorContainer">
         <div className='EditorWrap'>
           <h3>Text Editor</h3>
+          
           <ReactQuill theme="snow"
            value={value} 
            onChange={setValue} 
